@@ -1,4 +1,4 @@
-﻿namespace FreelanceBridge.API.Models
+﻿namespace FreelanceBridge.Bussiness.Models
 {
     public class User
     {

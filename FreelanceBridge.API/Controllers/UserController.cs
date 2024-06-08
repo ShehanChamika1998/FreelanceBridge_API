@@ -1,6 +1,6 @@
-﻿using FreelanceBridge.API.Data;
+﻿using FreelanceBridge.Bussiness.Dtos;
+using FreelanceBridge.Bussiness.Services.Interfaces;
 using Microsoft.AspNetCore.Mvc;
-using System.Threading.Tasks;
 
 
 namespace FreelanceBridge.API.Controllers
@@ -9,17 +9,17 @@ namespace FreelanceBridge.API.Controllers
     [ApiController]
     public class UserController : ControllerBase
     {
-        private readonly UserRepository _userRepository;
+        private readonly IUserService _userService;
 
-        public UserController(UserRepository userRepository)
+        public UserController(IUserService userService)
         {
-            _userRepository = userRepository;
+            _userService = userService;
         }
 
         [HttpPost("login")]
         public async Task<IActionResult> Login([FromBody] LoginRequest request)
         {
-            var user = await _userRepository.LoginAsync(request.UserName, request.Password);
+            var user = await _userService.LoginAsync(request.UserName, request.Password);
 
             if (user == null)
             {
@@ -32,7 +32,7 @@ namespace FreelanceBridge.API.Controllers
         [HttpPost("register")]
         public async Task<IActionResult> Register([FromBody] UserRegRequest request)
         {
-            var user = await _userRepository.RegisterAsync(request.Username, request.Password,request.Email);
+            var user = await _userService.RegisterAsync(request.Username, request.Password,request.Email);
 
             if (user == null)
             {
@@ -45,7 +45,7 @@ namespace FreelanceBridge.API.Controllers
         [HttpPost("deactivate_user")]
         public async Task<IActionResult> Deactivate([FromBody] DeactivateUsertRequest request)
         {
-            var user = await _userRepository.DeactivateUserAsync(request.Username);
+            var user = await _userService.DeactivateUserAsync(request.Username);
 
             if (user == null)
             {
@@ -54,25 +54,32 @@ namespace FreelanceBridge.API.Controllers
 
             return Ok(user);
         }
+        [HttpPost("freelancer_register")]
+        public async Task<IActionResult> FreelancerReg([FromBody] FreelancerRequest request)
+        {
+            var user = await _userService.AddUserAsaFreelancerAsync(request.Username,request.ProfileDescription,request.HourlyRate,request.PortfolioURL,request.Rating);
+
+            if (user == null)
+            {
+                return Unauthorized(new { message = "Failed to update!" });
+            }
+
+            return Ok(user);
+        }
+
+        [HttpPost("client_register")]
+        public async Task<IActionResult> ClientReg([FromBody] ClientRequest request)
+        {
+            var user = await _userService.AddUserAsaClientAsync(request.Username, request.CompanyName, request.CompanyDescription);
+
+            if (user == null)
+            {
+                return Unauthorized(new { message = "Failed to update!" });
+            }
+
+            return Ok(user);
+        }
     }
 
-    public class LoginRequest
-    {
-        public string UserName { get; set; }
-        public string Password { get; set; }
-    }
-
-    public class UserRegRequest
-    {
-        public string Password { get; set; }
-        public string Email { get; set; }
-        public string Username { get; set; }
-     
-    }
-
-    public class DeactivateUsertRequest
-    {
-        public string Username { get; set; }
-
-    }
+ 
 }

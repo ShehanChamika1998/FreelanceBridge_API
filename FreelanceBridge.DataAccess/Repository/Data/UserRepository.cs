@@ -1,10 +1,11 @@
 ﻿using Dapper;
-using FreelanceBridge.API.Models;
+using FreelanceBridge.Bussiness.Models;
+using FreelanceBridge.Bussiness.Repositories.Interfaces;
 using System.Data;
 
-namespace FreelanceBridge.API.Data
+namespace FreelanceBridge.DataAccess.Data
 {
-    public class UserRepository
+    public class UserRepository: IUserRepository
     {
         private readonly DapperContext _context;
 
@@ -67,6 +68,54 @@ namespace FreelanceBridge.API.Data
                 //string? uType = null;
                 var query = "dbo.Sp_DeactivateUser";
                 var parameters = new { Username = userName};
+
+                using (var connection = _context.CreateConnection())
+                {
+                    var user = await connection.QueryFirstOrDefaultAsync<dynamic>(query, parameters, commandType: CommandType.StoredProcedure);
+                    if (user == null)
+                    {
+                        return null;
+                    }
+                    return user; // This will return null if no matching user is found
+                }
+            }
+            catch (Exception ex)
+            {
+                return ex.Message;
+            }
+        }
+
+        public async Task<dynamic> AddUserAsaFreelancerAsync(string username, string profileDescription, decimal hourlyRate, string portfolioURL, decimal rating)
+        {
+            try
+            {
+                //string? uType = null;
+                var query = "dbo.Sp_InsertFreelancer";
+                var parameters = new { Username = username, ProfileDescription = profileDescription, HourlyRate = hourlyRate, PortfolioURL= portfolioURL, Rating= rating };
+
+                using (var connection = _context.CreateConnection())
+                {
+                    var user = await connection.QueryFirstOrDefaultAsync<dynamic>(query, parameters, commandType: CommandType.StoredProcedure);
+                    if (user == null)
+                    {
+                        return null;
+                    }
+                    return user; // This will return null if no matching user is found
+                }
+            }
+            catch (Exception ex)
+            {
+                return ex.Message;
+            }
+        }
+
+        public async Task<dynamic> AddUserAsaClientAsync(string username, string company, string companyDescription)
+        {
+            try
+            {
+                //string? uType = null;
+                var query = "dbo.Sp_InsertClient";
+                var parameters = new { Username = username, CompanyName = company, CompanyDescription = companyDescription };
 
                 using (var connection = _context.CreateConnection())
                 {

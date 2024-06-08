@@ -1,7 +1,7 @@
 ﻿using System.Data;
 using System.Data.SqlClient;
 
-namespace FreelanceBridge.API.Data
+namespace FreelanceBridge.DataAccess.Data
 {
     public class DapperContext
     {
