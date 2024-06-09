@@ -26,6 +26,8 @@ builder.Services.AddScoped<ISkillService, SkillService>();
 builder.Services.AddScoped<ISkillRepository, SkillRepository>();
 builder.Services.AddScoped<IBidsService, BidsService>();
 builder.Services.AddScoped<IBidsRepository, BidsRepository>();
+builder.Services.AddScoped<IReviewService, ReviewService>();
+builder.Services.AddScoped<IReviewRepository, ReviewRepository>();
 //builder.Services.AddScoped<ProjectRepository>();
 var app = builder.Build();
 
