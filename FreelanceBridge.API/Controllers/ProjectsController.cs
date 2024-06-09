@@ -54,11 +54,6 @@ namespace FreelanceBridge.API.Controllers
             return Ok(data);
         }
 
-        [HttpGet("Get_Data")]
-        public string GetProjectData()
-        {
-            return "gfgf";
-        }
     }
 
 
