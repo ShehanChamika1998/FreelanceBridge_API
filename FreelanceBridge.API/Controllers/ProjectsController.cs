@@ -15,7 +15,7 @@ namespace FreelanceBridge.API.Controllers
             _projectService = projectService;
         }
 
-        [HttpPost("Project_Creation")]
+        [HttpPost("Project_Creations")]
         public async Task<IActionResult> InsertProject([FromBody] ProjectTask request)
         {
             var data = await _projectService.AddProjectAsync(request.ClientID, request.Title, request.Description, request.Budget, request.Deadline);
