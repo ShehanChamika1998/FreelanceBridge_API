@@ -23,7 +23,7 @@ namespace FreelanceBridge.API.Controllers
 
             if (user == null)
             {
-                return Unauthorized(new { message = "Invalid Username or Password" });
+                return Unauthorized(new { message = "Invalid Username or Pass word" });
             }
 
             return Ok(user);
