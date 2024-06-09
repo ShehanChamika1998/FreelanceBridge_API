@@ -13,7 +13,7 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-// Get the connection string from configuration
+// Get the connection string from configurations
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
 
 // Register Dapper context and repository
