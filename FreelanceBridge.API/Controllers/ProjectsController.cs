@@ -48,7 +48,7 @@ namespace FreelanceBridge.API.Controllers
 
             if (data == null)
             {
-                return Unauthorized(new { message = "No Data!" });
+                return Unauthorized(new { message = "No Dafwretfewta!" });
             }
 
             return Ok(data);
