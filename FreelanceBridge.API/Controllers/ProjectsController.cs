@@ -41,7 +41,7 @@ namespace FreelanceBridge.API.Controllers
             return Ok(data);
         }
 
-        [HttpGet("Get_Projects")]
+        [HttpPost("Get_Projects")]
         public async Task<IActionResult> GetProject([FromBody] Project request)
         {
             var data = await _projectService.GetProjectsAsync(request.PID, request.Status);
